@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://server-57ii.onrender.com';
 
 function Signup() {
   const [form, setForm] = useState({

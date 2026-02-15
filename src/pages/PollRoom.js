@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://server-57ii.onrender.com';
 
 function PollRoom() {
   const [poll, setPoll] = useState(null);
