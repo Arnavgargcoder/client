@@ -4,20 +4,13 @@ import { useNavigate, Link } from 'react-router-dom';
 import { API_URL } from '../api';
 
 function Signup() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       await axios.post(`${API_URL}/api/signup`, form);
-
       alert('Signup successful ✅');
       navigate('/');
     } catch (err) {
@@ -29,7 +22,6 @@ function Signup() {
     <div className="container mt-5">
       <div className="card p-4 shadow">
         <h3 className="text-center">Signup</h3>
-
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -38,7 +30,6 @@ function Signup() {
             required
             onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
-
           <input
             type="email"
             className="form-control mb-3"
@@ -46,7 +37,6 @@ function Signup() {
             required
             onChange={(e) => setForm({ ...form, email: e.target.value })}
           />
-
           <input
             type="password"
             className="form-control mb-3"
@@ -54,10 +44,8 @@ function Signup() {
             required
             onChange={(e) => setForm({ ...form, password: e.target.value })}
           />
-
           <button className="btn btn-success w-100">Signup</button>
         </form>
-
         <div className="text-center mt-3">
           Already have account? <Link to="/">Login</Link>
         </div>
