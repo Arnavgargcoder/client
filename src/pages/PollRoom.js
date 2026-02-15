@@ -52,11 +52,11 @@ function PollRoom() {
   if (!poll) return <p className="text-center mt-5">Loading...</p>;
 
   return (
-    <div className="container mt-5">
-      <div className="card p-4 shadow">
-        <div className="d-flex justify-content-between">
-          <h3>{poll.poll.question}</h3>
-          <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
+    <div className="container mt-5" style={{ maxWidth: '600px' }}>
+      <div className="glass-card fade-in">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h3 className="m-0 text-primary">{poll.poll.question}</h3>
+          <button className="btn btn-outline-danger btn-sm rounded-pill px-3" onClick={logout}>Logout</button>
         </div>
         <hr />
         {!poll.alreadyVoted && (
@@ -76,10 +76,31 @@ function PollRoom() {
             <hr />
           </>
         )}
-        <h5>Results:</h5>
-        {poll.options.map((opt) => (
-          <div key={opt._id}>{opt.option_text} — {opt.votes} votes</div>
-        ))}
+        <h5>Live Results:</h5>
+        {(() => {
+          const totalVotes = poll.options.reduce((acc, curr) => acc + curr.votes, 0);
+          return poll.options.map((opt) => {
+            const percent = totalVotes ? Math.round((opt.votes / totalVotes) * 100) : 0;
+            return (
+            <div key={opt._id} className="mb-3">
+              <div className="d-flex justify-content-between mb-1">
+                <span className="fw-bold">{opt.option_text}</span>
+                <span className="text-muted small">{opt.votes} votes ({percent}%)</span>
+              </div>
+              <div className="progress" style={{ height: '8px', borderRadius: '4px' }}>
+                <div
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{ width: `${percent}%`, backgroundColor: 'var(--secondary-color)' }}
+                  aria-valuenow={percent}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+            </div>
+          );
+          });
+        })()}
       </div>
     </div>
   );

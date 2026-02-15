@@ -24,9 +24,10 @@ function Login() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="card p-4 shadow">
-        <h3 className="text-center">Login</h3>
+    <div className="container mt-5" style={{ maxWidth: '500px' }}>
+      <div className="glass-card fade-in">
+        <h3 className="text-center mb-4">Welcome Back</h3>
+        <p className="text-center text-muted mb-4">Login to continue voting</p>
         <form onSubmit={handleSubmit}>
           <input
             type="email"
