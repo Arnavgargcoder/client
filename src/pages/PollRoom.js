@@ -15,6 +15,10 @@ function PollRoom() {
       navigate('/');
     } else {
       fetchPoll();
+
+      // Auto-refresh every 3 seconds
+      const interval = setInterval(fetchPoll, 3000);
+      return () => clearInterval(interval);
     }
   }, [navigate]);
 
