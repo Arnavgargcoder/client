@@ -9,14 +9,10 @@ function PollRoom() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
+    if (!localStorage.getItem('token')) {
       navigate('/');
     } else {
       fetchPoll();
-
-      // Auto-refresh every 3 seconds
       const interval = setInterval(fetchPoll, 3000);
       return () => clearInterval(interval);
     }
@@ -25,34 +21,22 @@ function PollRoom() {
   const fetchPoll = async () => {
     try {
       const res = await axios.get(`${API_URL}/poll`, {
-        headers: {
-          authorization: localStorage.getItem('token'),
-        },
+        headers: { authorization: localStorage.getItem('token') },
       });
-
       setPoll(res.data);
-    } catch (err) {
+    } catch {
       console.log('Error fetching poll');
     }
   };
 
   const submitVote = async () => {
-    if (!selected) {
-      alert('Please select an option');
-      return;
-    }
-
+    if (!selected) return alert('Please select an option');
     try {
       await axios.post(
         `${API_URL}/vote`,
         { optionId: selected },
-        {
-          headers: {
-            authorization: localStorage.getItem('token'),
-          },
-        }
+        { headers: { authorization: localStorage.getItem('token') } }
       );
-
       alert('Vote submitted ✅');
       fetchPoll();
     } catch (err) {
@@ -72,13 +56,9 @@ function PollRoom() {
       <div className="card p-4 shadow">
         <div className="d-flex justify-content-between">
           <h3>{poll.poll.question}</h3>
-          <button className="btn btn-danger btn-sm" onClick={logout}>
-            Logout
-          </button>
+          <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
         </div>
-
         <hr />
-
         {!poll.alreadyVoted && (
           <>
             {poll.options.map((opt) => (
@@ -92,21 +72,13 @@ function PollRoom() {
                 <label className="form-check-label">{opt.option_text}</label>
               </div>
             ))}
-
-            <button className="btn btn-primary mt-3" onClick={submitVote}>
-              Submit Vote
-            </button>
-
+            <button className="btn btn-primary mt-3" onClick={submitVote}>Submit Vote</button>
             <hr />
           </>
         )}
-
         <h5>Results:</h5>
-
         {poll.options.map((opt) => (
-          <div key={opt._id}>
-            {opt.option_text} — {opt.votes} votes
-          </div>
+          <div key={opt._id}>{opt.option_text} — {opt.votes} votes</div>
         ))}
       </div>
     </div>
